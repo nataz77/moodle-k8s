@@ -6,6 +6,6 @@ metadata:
 spec:
   releaseName: podinfo
   chart:
-    git: git@ssh.dev.azure.com:v3/almatoolbox/notartel/maecicluster-k8smoodle
+    git: git@github.com:nataz77/moodle-k8s.git
     path: charts/podinfo
     ref: master
