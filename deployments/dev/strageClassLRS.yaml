@@ -1,0 +1,15 @@
+# #The default value for fileMode and dirMode is 0777 for Kubernetes #version 1.13.0 and above, you can modify as per your need
+# kind: StorageClass
+# apiVersion: storage.k8s.io/v1
+# metadata:
+#   name: azurefile-lrs
+# provisioner: kubernetes.io/azure-file
+# mountOptions:
+#   - dir_mode=0755
+#   - file_mode=0755
+#   - uid=0
+#   - gid=0
+#   - mfsymlinks
+#   - cache=strict
+# parameters:
+#   skuName: Standard_LRS

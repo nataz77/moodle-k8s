@@ -1,0 +1,52 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: nginx-ingress
+  namespace: dev
+spec:
+  releaseName: nginx-ingress
+  chart:
+    git: git@github.com:nataz77/moodle-k8s.git
+    path: charts/nginx-ingress
+    ref: master
+  values:
+    image:
+      repository: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
+      tag: "0.32.0"
+    replicaCount: 3
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: s.natalini@almaviva.it
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - http01:
+        ingress:
+          class: nginx   
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: moodlewesteurope-dev-ingress
+  namespace: dev
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+  - host: moodle2.maeci.almdev.it
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: moodlewesteurope-dev-1
+          servicePort: 80
+  tls:
+  - hosts:
+      - moodle2.maeci.almdev.it
+    secretName: moodle2-tls

@@ -1,0 +1,11 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: podinfo
+  namespace: dev
+spec:
+  releaseName: podinfo
+  chart:
+    git: git@ssh.dev.azure.com:v3/almatoolbox/notartel/maecicluster-k8smoodle
+    path: charts/podinfo
+    ref: master

@@ -1,0 +1,25 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: moodle
+  namespace: dev
+spec:
+  releaseName: moodle
+  chart:
+    git: git@github.com:nataz77/moodle-k8s.git
+    path: charts/moodle
+    ref: master
+  values:
+    image:      
+      tag: 3.9.1-debian-10-r0
+    replicaCount: 1
+    moodleEmail: s.natalini@almaviva.it
+    persistence.storageClass: default
+    mariadb.master.persistence.storageClass: default
+    ingress.enabled: true
+    serviceType: ClusterIP
+    smtpHost: smtp.sendgrid.net
+    smtpPort: 25
+    smtpUser: apikey
+    smtpPassword: smtppassword
+    #smtpProtocol: TLS

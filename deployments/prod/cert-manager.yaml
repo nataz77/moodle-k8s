@@ -1,0 +1,25 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: cert-manager
+  namespace: prod
+spec:
+  releaseName: cert-manager-prod
+  chart:
+    git: git@github.com:nataz77/moodle-k8s.git
+    path: charts/cert-manager
+    ref: master
+  values:
+    image:
+      repository: quay.io/jetstack/cert-manager-controller
+      tag: "v0.15.2"
+    cainjector:
+      image:
+        repository: quay.io/jetstack/cert-manager-cainjector
+        tag: "v0.15.2"
+    webhook:
+      image:
+         repository: quay.io/jetstack/cert-manager-webhook
+         tag: "v0.15.2"
+    replicaCount: 1
+    installCRDs: true
